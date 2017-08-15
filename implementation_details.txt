@@ -1,0 +1,58 @@
+MOD DE REZOLVARE AL TEMEI:
+TASK1:
+
+-se citeste fiecare numar introdus, atata timp cat acesta nu e -1
+-se initializeaza numarul sau de biti in reprezentare binara cu 0p
+- 1. daca numarul e 0:
+	-se trece bitul 0 in vectorul in care se memoreaza rezultatul pentru acest task
+	-se reseteaza copia lui b, daca e cazul
+	-se micsoreaza cu 1 valoarea copiei lui b, pentru ca s-a introdus un bit in rezultat
+	-se creste cu 1 valoarea lui cnt = contor care numara cati biti intra in vectorul rezultat
+  2. daca numarul introdus e orice alt numar in afara de 0:
+	-atata timp cat el e pozitiv si >0:
+		-se memoreaza temporar acesta scris in baza 2, de la coada la cap intr-un vector bit
+			-de exemplu 35 este memorat nu ca 100011 ci ca 110001
+		-apoi pentru fiecare bit al reprezentarii numarului in vectorul bit:
+			-se verifica daca s-au selectati cati biti trebuie si daca sa se trece mai departe
+			-atata timp cat nu s-au selectat inca cati biti trebuie din numar, se trec acestia (de la coada la cap, pentru a fi de aceasta data in ordinea corecta) in vectorul rezultat.
+			-se scade cu 1 numarul de biti ce mai trebuie selectati
+			-se creste valoarea lui cnt
+-se citeste numarul urmator si se reincepe, daca acesta este -1, toata bucla while.
+-se tipareste vectorul rezultat dupa ce s-a intalnit valoarea -1
+
+TASK2:
+
+-in tempX si tempY se memoreaza temporar cele doua numere introduse de la tastatura
+-se verifica printr-o functie daca tempX si tempY sunt simultan -1 si daca nu sunt:
+	-tempX e facut 0 daca e mai mic ca 0
+	-daca tempY e prea departe de tempX, e adus in pozitia corecta
+	-daca tempY (chiar dupa modificarea anterioara) e mai mare decat cnt, atunci acesta ia valoarea indicelui ultimului bit din vector
+	-daca toate celelalte conditii sunt satisfcaute(tempY sa nu fie mai mic ca tempX, tempX sa nu fie prea mare, tempY sa nu fie prea mic) atunci:
+		-cu j se parcurg de la coada la cap bitii din rezultat intre tempY si tempX:
+			-daca un bit e 1, atunci la numarul ce va fi creats se adauga 2 la puterea pot
+			-daca un bit e 0, atunci doar se creste valoarea lui pot
+		-pentru calcularea lui 2 la puterea pot se foloseste functia notUsingPow, pentru ca pe forum ni s-a spus sa nu folosim functia pow
+		-daca numarul rezulat (selected) este mai mare ca m%n, el e egal cu restul sau la m*n
+		-se printeaza selected=numarul rezultat prin operatiile descrise mai sus
+		-matricea land este cea in care se afla bazele in aceasta dupa operatiile de mai sus, se pune 1 in fiecare "celula" in care exista o baza, pentru a semnifica existenta acesteia. Baze de pe pozitia selected se afla de fapt in elementrul de coordonate [selected/n] si [selected%n] al matricei (denumite land)
+-se citeste urmatoarea pereche de nummere si daca ele nu sunt ambele -1, se reia toata bucla while
+
+TASK3:
+
+-pentru fiecare element din matricea land, daca acesta este egal cu 1:
+	-se initializeaza marimea reuniunii de baze din care face parte cu 1
+	-se exectua algoritmul de flood fill in cadrul caruia:
+		-daca un element din matrice e 1 (nu a fost adaugat intr-o reuniune de baze anterior)
+			-primeste numarul de ordine al reuniunii sale de baze, numar care poate sa inceapa de la 2 (pentru a nu se confunda cu 0 sau cu 1 rezervate pentru a arata daca exista sau nu o baza intr-o "celula" a matricei)
+			-se verifica mai departe, daca nu se iese din matrice, pe cele patru directii daca mai exista o alta baza adiacenta ce ar putea fi adaugata la reuniunea de baze
+			-de fiecare data cand se gaseste o astfel de baza, baseArea=numarul de baze dintr-o reuniune creste (cu 1)
+	- baseArea e utilizat atat de main cat si de floodFill: in main e resetat in mementul cand se trece la o alta reuniune de baze, iar in floodFill acesta este marit de fiecare data cand se gaseste o alta baza ce trebuie adaugata intr-o reuniune.
+	-de fiecare data cand se trece la o noua reuniune de baze zoneIndex (sau zoneNr din functia floodFill) creste cu 1, pentru se putea delimita reuniuni noi. Acest numar incepe de la 2, cum am explicat mai sus.
+	-max memoreaza numarul maxim de baze dintr-o reuniune
+	-daca se gaseste un nou numar maxim de baze dintr-o reuniune:
+		-se inlocuieste max cu noul numar si se resteaza task3Counter care numara cate reuniuni de baze de dimensiune maximala au fost gasite
+		-se adauga in startX si startY pozitia de inceput(colt stanga sus) a noii reuniuni maximale de baze
+	-daca se gaseste inca o reuniune de baze cu dimensiunea max:
+		-se adauga in vectorii startX si startY pozitia de inceput (colt stanga sus) a acelei reuniuni de baze 
+-la final se tiparesc pozitiile de inceput ale fiecarei reuniuni maximale de baze urmate de numarul maxim de baze dintr-o astfel de reuniune.
+		
